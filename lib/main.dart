@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_crud/screens/users/users.dart';
+import 'package:flutter_crud/ui/users/users.dart';
 
 void main() {
   SystemChrome.setEnabledSystemUIOverlays([]);
