@@ -10,27 +10,29 @@ class UserBloc {
 
   get users => _userController.stream;
 
-  UserBloc() {
-    getUsers();
+  UserBloc({id}) {
+    if (id != null) getUser(id);
+    else getUsers();
   }
 
   getUsers() async {
-    _userController.sink.add(await _userRepository.getUsers());
+    List<User> users = await _userRepository.getUsers();
+    _userController.sink.add(users);
   }
 
   getUser(int id) async {
-    await _userRepository.getUser(id);
-    getUsers();
+    List<User> users = [await _userRepository.getUser(id)];
+    _userController.sink.add(users);
   }
 
   addUser(User user) async {
-    await _userRepository.createUser(user);
-    getUsers();
+    List<User> users = [await _userRepository.createUser(user)];
+    _userController.sink.add(users);
   }
 
   updateUser(User user) async {
-    await _userRepository.updateUser(user);
-    getUsers();
+    List<User> users = [await _userRepository.updateUser(user)];
+    _userController.sink.add(users);
   }
 
   deleteUser(int id) async {

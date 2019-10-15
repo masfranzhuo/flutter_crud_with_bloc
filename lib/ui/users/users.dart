@@ -56,7 +56,7 @@ class UsersScreen extends StatelessWidget {
         child: GestureDetector(
       onTap: () {
         Navigator.push(context,
-          MaterialPageRoute(builder: (context) => UserScreen(userBloc, user.id)),
+          MaterialPageRoute(builder: (context) => UserScreen(user.id)),
         );
       },
       child: Container(

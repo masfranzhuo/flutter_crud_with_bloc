@@ -43,13 +43,15 @@ class UserDao {
     return user;
   }
 
-  Future<int> updateUser(User user) async {
+  Future<User> updateUser(User user) async {
     String url = userModelUrl + user.id.toString();
 
     var response = await http.put(url, body: user.toJson());
     var result = json.decode(response.body);
 
-    return result;
+    user = User.fromJson(result);
+
+    return user;
   }
 
   Future deleteUser(int id) async {
