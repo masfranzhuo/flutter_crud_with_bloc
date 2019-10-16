@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_crud/bloc/user_bloc.dart';
 import 'package:flutter_crud/models/user_model.dart';
-import 'package:flutter_crud/ui/users/user.dart';
+import 'package:flutter_crud/ui/users/user_details.dart';
 import 'package:flutter_crud/ui/users/user_form.dart';
+import 'package:flutter_crud/ui/widgets/loading_widget.dart';
+import 'package:flutter_crud/ui/widgets/no_data_widget.dart';
 
 class UsersScreen extends StatelessWidget {
   UsersScreen({Key key}) : super(key: key);
@@ -30,21 +32,18 @@ class UsersScreen extends StatelessWidget {
       body: Center(
         child: Container(
           child: StreamBuilder(
-              stream: userBloc.users,
+              stream: userBloc.usersStream,
               builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-                if (snapshot.hasData) {
-                  return snapshot.data.length != 0
-                      ? ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            User user = snapshot.data[index];
-                            return _userCard(user, context);
-                          },
-                        )
-                      : Container(child: Text('No Data'));
-                } else {
-                  return CircularProgressIndicator();
-                }
+                if (!snapshot.hasData) return Loading(); 
+                return snapshot.data.length != 0
+                    ? ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          User user = snapshot.data[index];
+                          return _userCard(user, context);
+                        },
+                      )
+                    : NoData();
               }),
         ),
       ),
@@ -56,7 +55,7 @@ class UsersScreen extends StatelessWidget {
         child: GestureDetector(
       onTap: () {
         Navigator.push(context,
-          MaterialPageRoute(builder: (context) => UserScreen(user.id)),
+          MaterialPageRoute(builder: (context) => UserDetailsScreen(user.id)),
         );
       },
       child: Container(

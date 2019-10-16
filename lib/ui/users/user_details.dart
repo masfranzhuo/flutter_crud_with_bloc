@@ -2,32 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_crud/bloc/user_bloc.dart';
 import 'package:flutter_crud/models/user_model.dart';
 import 'package:flutter_crud/ui/users/user_form.dart';
+import 'package:flutter_crud/ui/widgets/loading_widget.dart';
+import 'package:flutter_crud/ui/widgets/no_data_widget.dart';
 
-class UserScreen extends StatefulWidget {
+class UserDetailsScreen extends StatefulWidget {
   final int id;
 
-  UserScreen(this.id);
+  UserDetailsScreen(this.id);
 
   @override
-  _UserScreenState createState() => _UserScreenState();
+  _UserDetailsScreenState createState() => _UserDetailsScreenState();
 }
 
-class _UserScreenState extends State<UserScreen> {
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   UserBloc userBloc;
 
   @override
-  initState() {
-    userBloc = UserBloc(id: widget.id);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    userBloc = UserBloc(id: widget.id);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('User'),
+        title: Text('User Details'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.edit),
@@ -42,25 +39,22 @@ class _UserScreenState extends State<UserScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: StreamBuilder(
-            stream: userBloc.users,
+            stream: userBloc.usersStream,
             builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data.length != 0) {
-                  User user = snapshot.data[0];
-                  return Container(
-                    child: Column(
-                      children: <Widget>[
-                        Text(user.name),
-                        Text(user.username),
-                        Text(user.email),
-                      ],
-                    )
-                  );
-                } else {
-                  return Container(child: Text('No Data'));
-                }
+              if (!snapshot.hasData) return Loading();
+              if (snapshot.data.length != 0) {
+                User user = snapshot.data[0];
+                return Container(
+                  child: Column(
+                    children: <Widget>[
+                      Text(user.name),
+                      Text(user.username),
+                      Text(user.email),
+                    ],
+                  )
+                );
               } else {
-                return CircularProgressIndicator();
+                return NoData();
               }
             }
           )
