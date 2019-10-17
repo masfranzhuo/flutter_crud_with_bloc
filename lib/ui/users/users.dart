@@ -7,8 +7,6 @@ import 'package:flutter_crud/ui/widgets/loading_widget.dart';
 import 'package:flutter_crud/ui/widgets/no_data_widget.dart';
 
 class UsersScreen extends StatelessWidget {
-  UsersScreen({Key key}) : super(key: key);
-
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final UserBloc userBloc = UserBloc();
 

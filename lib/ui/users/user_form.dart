@@ -33,10 +33,10 @@ class _UserFormScreenState extends State<UserFormScreen> {
           child: Center(
             child: SingleChildScrollView(
               child: StreamBuilder(
-                  stream: userBloc.usersStream,
-                  builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+                  stream: userBloc.userStream,
+                  builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
                     if (!snapshot.hasData) return Loading();
-                    User user = snapshot.data[0];
+                    User user = snapshot.data;
                     _nameController.value = _nameController.value.copyWith(text: user.name);
                     _usernameController.value = _usernameController.value.copyWith(text: user.username);
                     _emailController.value = _emailController.value.copyWith(text: user.email);

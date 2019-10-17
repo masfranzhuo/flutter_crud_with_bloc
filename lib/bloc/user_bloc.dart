@@ -7,11 +7,14 @@ import 'package:flutter_crud/repository/user_repository.dart';
 class UserBloc extends BlocBase {
   final _userRepository = UserRepository();
 
-  final StreamController _userController = StreamController<List<User>>.broadcast();
+  final StreamController _usersController = StreamController<List<User>>.broadcast();
+  final StreamController _userController = StreamController<User>.broadcast();
 
-  Sink get _usersSink =>_userController.sink;
+  Sink get _usersSink => _usersController.sink;
+  Sink get _userSink => _userController.sink;
 
-  Stream<List<User>> get usersStream => _userController.stream;
+  Stream<List<User>> get usersStream => _usersController.stream;
+  Stream<User> get userStream => _userController.stream;
 
   UserBloc({id}) {
     if (id != null) getUser(id);
@@ -23,18 +26,15 @@ class UserBloc extends BlocBase {
   }
 
   getUser(int id) async {
-    List<User> users = [await _userRepository.getUser(id)];
-    _usersSink.add(users);
+    _userSink.add(await _userRepository.getUser(id));
   }
 
   addUser(User user) async {
-    List<User> users = [await _userRepository.createUser(user)];
-    _usersSink.add(users);
+    _userSink.add(await _userRepository.createUser(user));
   }
 
   updateUser(User user) async {
-    List<User> users = [await _userRepository.updateUser(user)];
-    _usersSink.add(users);
+    _userSink.add(await _userRepository.updateUser(user));
   }
 
   deleteUser(int id) async {
@@ -43,6 +43,7 @@ class UserBloc extends BlocBase {
   }
 
   dispose() {
+    _usersController.close();
     _userController.close();
   }
 }

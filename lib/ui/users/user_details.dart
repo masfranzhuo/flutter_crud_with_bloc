@@ -39,11 +39,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: StreamBuilder(
-            stream: userBloc.usersStream,
-            builder: (BuildContext context, AsyncSnapshot<List<User>> snapshot) {
+            stream: userBloc.userStream,
+            builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
               if (!snapshot.hasData) return Loading();
-              if (snapshot.data.length != 0) {
-                User user = snapshot.data[0];
+              if (snapshot.data != null) {
+                User user = snapshot.data;
                 return Container(
                   child: Column(
                     children: <Widget>[

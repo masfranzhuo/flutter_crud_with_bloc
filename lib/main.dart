@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_crud/bloc/user_bloc.dart';
+import 'package:flutter_crud/helper/bloc/bloc_provider.dart';
 import 'package:flutter_crud/ui/users/users.dart';
 
 void main() {
@@ -16,7 +18,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: true,
       theme: ThemeData(brightness: Brightness.dark),
-      home: UsersScreen()
+      home: BlocProvider(
+        bloc: UserBloc(),
+        child: UsersScreen()
+      )
     );
   }
 }
