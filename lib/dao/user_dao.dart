@@ -11,7 +11,7 @@ class UserDao {
     String url = userModelUrl;
 
     var response = await http.get(url);
-    var result = await json.decode(response.body);
+    var result = await jsonDecode(response.body);
 
     List<User> users = [];
     for(int i = 0; i< result.length; i++) {
@@ -25,7 +25,7 @@ class UserDao {
     String url = userModelUrl + id.toString();
 
     var response = await http.get(url);
-    var result = json.decode(response.body);
+    var result = jsonDecode(response.body);
 
     User user = User.fromJson(result);
 
@@ -36,7 +36,7 @@ class UserDao {
     String url = userModelUrl;
 
     var response = await http.post(url, body: user.toJson());
-    var result = json.decode(response.body);
+    var result = jsonDecode(response.body);
 
     user = User.fromJson(result);
 
@@ -47,7 +47,7 @@ class UserDao {
     String url = userModelUrl + user.id.toString();
 
     var response = await http.put(url, body: user.toJson());
-    var result = json.decode(response.body);
+    var result = jsonDecode(response.body);
 
     user = User.fromJson(result);
 
