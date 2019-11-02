@@ -97,7 +97,7 @@ class _UserFormScreenState extends State<UserFormScreen> {
                                   userBloc.updateUser(user);
                                 }
                                 _scaffoldKey.currentState.showSnackBar(
-                                  SnackBar(content: Text(user.name + (widget.id == 0 ? ' created' : ' updated')))
+                                  SnackBar(content: Text(user.name + (widget?.id == 0 ? ' created' : ' updated')))
                                 );
                               }
                             },
